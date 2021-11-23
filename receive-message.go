@@ -22,7 +22,7 @@ func ReceiveMessage(sess *session.Session, queueURL *string) {
 		MaxNumberOfMessages: aws.Int64(1),
 	})
 	if err != nil {
-		fmt.Errorf("Error %v", err)
+		fmt.Errorf("Error %v\n", err)
 		return
 	}
 
@@ -34,7 +34,6 @@ func ReceiveMessage(sess *session.Session, queueURL *string) {
 	for _, msg := range msgResult.Messages {
 		fmt.Printf("Body : %v\n", *msg.Body)
 		fmt.Printf("Message : %v\n", msg.MessageAttributes)
-		fmt.Printf("Receipt : %v\n", msg.ReceiptHandle)
 
 		// Delete the message as soon as it is received from the queue
 		DeleteMessage(sess, queueURL, msg.ReceiptHandle)

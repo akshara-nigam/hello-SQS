@@ -12,13 +12,13 @@ func ListQueues(sess *session.Session) {
 	svc := sqs.New(sess)
 
 	if svc == nil {
-		fmt.Errorf("SQS Session empty")
+		fmt.Errorf("SQS Session empty\n")
 		return
 	}
 
 	result, err := svc.ListQueues(nil)
 	if err != nil {
-		fmt.Errorf("Error %v", err)
+		fmt.Errorf("Error %v\n", err)
 		return
 	}
 
@@ -44,11 +44,11 @@ func CreateQueue(sess *session.Session, queue *string) {
 	})
 
 	if err != nil {
-		fmt.Errorf("Error %v", err)
+		fmt.Errorf("Error %v\n", err)
 		return
 	}
 
-	fmt.Printf("Queue created successfully %s !!", *result.QueueUrl)
+	fmt.Printf("Queue created successfully %s !!\n", *result.QueueUrl)
 }
 
 func GetQueueURL(sess *session.Session, queue *string) *string {
@@ -58,7 +58,7 @@ func GetQueueURL(sess *session.Session, queue *string) *string {
 		QueueName: queue,
 	})
 	if err != nil {
-		fmt.Errorf("Error %v", err)
+		fmt.Errorf("Error %v\n", err)
 		return nil
 	}
 
@@ -78,7 +78,7 @@ func DeleteQueue(sess *session.Session, queue *string) {
 		QueueUrl: url,
 	})
 	if err != nil {
-		fmt.Errorf("Error %v", err)
+		fmt.Errorf("Error %v\n", err)
 		return
 	}
 

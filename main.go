@@ -16,16 +16,17 @@ func main() {
 	})
 
 	if err != nil {
-		fmt.Errorf("%v", err)
+		fmt.Errorf("%v\n", err)
 	}
 
 	queueName := "Test-Queue-Akshara"
 
-	DeleteQueue(sess, &queueName)
-	//ListQueues(sess)
-	//CreateQueue(&queueName)
-	//url := GetQueueURL(&queueName)
 
-	//SendMessage(url)
-	//ReceiveMessage(url)
+	ListQueues(sess)
+	CreateQueue(sess, &queueName)
+	url := GetQueueURL(sess, &queueName)
+	SendMessage(sess, url)
+	ReceiveMessage(sess, url)
+	DeleteQueue(sess, &queueName)
+	ListQueues(sess)
 }

@@ -31,7 +31,7 @@ func SendMessage(sess *session.Session, queueURL *string) {
 		QueueUrl:    queueURL,
 	})
 	if err != nil {
-		fmt.Printf("Error %v", err)
+		fmt.Printf("Error %v\n", err)
 		return
 	}
 
