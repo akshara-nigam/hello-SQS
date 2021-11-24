@@ -3,6 +3,10 @@ package main
 import (
 	"fmt"
 
+	"github.com/akshara-nigam/hello-SQS/consumer"
+	"github.com/akshara-nigam/hello-SQS/producer"
+	"github.com/akshara-nigam/hello-SQS/sqs"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -10,7 +14,7 @@ import (
 
 func main() {
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("us-east-1"),
+		Region:      aws.String("us-east-2"),
 		Credentials: credentials.NewSharedCredentials("", "devmfa"),
 	})
 
@@ -24,11 +28,11 @@ func main() {
 	msgMap["Title"] = "The Whistler"
 	msgMap["WeeksOn"] = "6"
 
-	ListQueues(sess)
-	CreateQueue(sess, &queueName)
-	url := GetQueueURL(sess, &queueName)
-	SendMessage(sess, url, msgMap)
-	ReceiveMessage(sess, url)
-	DeleteQueue(sess, &queueName)
-	ListQueues(sess)
+	sqs.ListQueues(sess)
+	sqs.CreateQueue(sess, &queueName)
+	url := sqs.GetQueueURL(sess, &queueName)
+	producer.SendMessage(sess, url, msgMap)
+	consumer.ReceiveMessage(sess, url)
+	sqs.DeleteQueue(sess, &queueName)
+	sqs.ListQueues(sess)
 }

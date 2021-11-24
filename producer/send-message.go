@@ -1,4 +1,4 @@
-package main
+package producer
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ func SendMessage(sess *session.Session, queueURL *string, msgMap map[string]stri
 		QueueUrl:          queueURL,
 	})
 	if err != nil {
-		fmt.Printf("Error %v\n", err)
+		fmt.Errorf("Error %v\n", err)
 		return
 	}
 

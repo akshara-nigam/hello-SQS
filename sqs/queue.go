@@ -1,4 +1,4 @@
-package main
+package sqs
 
 import (
 	"fmt"
@@ -38,8 +38,9 @@ func CreateQueue(sess *session.Session, queue *string) {
 	result, err := svc.CreateQueue(&sqs.CreateQueueInput{
 		QueueName: queue,
 		Attributes: map[string]*string{
-			"DelaySeconds":           aws.String("60"),
-			"MessageRetentionPeriod": aws.String("86400"),
+			"DelaySeconds":                  aws.String("60"),
+			"MessageRetentionPeriod":        aws.String("86400"),
+			"ReceiveMessageWaitTimeSeconds": aws.String("10"),
 		},
 	})
 
