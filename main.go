@@ -32,7 +32,12 @@ func main() {
 	sqs.CreateQueue(sess, &queueName)
 	url := sqs.GetQueueURL(sess, &queueName)
 	producer.SendMessage(sess, url, msgMap)
-	consumer.ReceiveMessage(sess, url)
+
+	s := consumer.NewSQS()
+	s.Session = sess
+	s.URL = url
+	s.ReceiveMessage()
+
 	sqs.DeleteQueue(sess, &queueName)
 	sqs.ListQueues(sess)
 }
