@@ -14,15 +14,15 @@ type SQS struct {
 }
 
 // ConsumeMessage contains the message body
-type ConsumerMessage struct {
+type ConsumeMessage struct {
 	Body    string            `json:"body"`
 	Message map[string]string `json:"message"`
 }
 
-func NewSQS() *SQS {
+func NewSQS(sess *session.Session, url *string) *SQS {
 	return &SQS{
-		Session: nil,
-		URL: nil,
+		Session: sess,
+		URL: url,
 	}
 }
 
@@ -31,16 +31,14 @@ func (s *SQS) ReceiveMessage() {
 	go s.pollMessages(chnMessages)
 
 	for msg := range chnMessages {
-		fmt.Println("\nRECEIVED MESSAGE >>> ")
-
-		var message ConsumerMessage
+		var message ConsumeMessage
 		message.Body = *msg.Body
 		message.Message = make(map[string]string)
 
 		for key, atr := range msg.MessageAttributes {
 			message.Message[key] = *atr.StringValue
 		}
-		fmt.Println(message)
+		fmt.Printf("Received Message : %v\n",message)
 
 		// Delete the message as soon as it is received from the queue
 		s.deleteMessage(msg.ReceiptHandle)
