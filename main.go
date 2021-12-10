@@ -31,7 +31,15 @@ func main() {
 	sqs.ListQueues(sess)
 	sqs.CreateQueue(sess, &queueName)
 	url := sqs.GetQueueURL(sess, &queueName)
-	producer.SendMessage(sess, url, msgMap)
+
+	ch := make(chan map[string]string)
+	go func(){
+		for i:=0;i<10;i++{
+			ch <- msgMap
+		}
+	}()
+
+	producer.SendMessage(ch, sess, url)
 
 	s := consumer.NewSQS(sess, url)
 	s.ReceiveMessage()
